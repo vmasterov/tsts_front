@@ -1,0 +1,47 @@
+/* devices breakpoints */
+$w_1600: 1600px;
+$w_1501: 1501px;
+$w_993: 993px;
+$w_601: 601px;
+
+@mixin w_1600 {
+  @media (min-width: $w_1600) {
+    @content;
+  }
+}
+
+@mixin w_1501 {
+  @media (min-width: $w_1501) {
+    @content;
+  }
+}
+
+@mixin w_993 {
+  @media (min-width: $w_993) {
+    @content;
+  }
+}
+
+@mixin w_601 {
+  @media (min-width: $w_601) {
+    @content;
+  }
+}
+
+/* colors map */
+$orange: #EB5E28;
+$orange1: #EC7143;
+$orange2: #CD4815;
+$orange4: #F5BDA8;
+$gray1: #66615B;
+$gray2: #CCC5B9;
+$gray3: #403D39;
+$gray4: #9A9A9A;
+$gray5: #F4F3EF;
+$gray6: #DDDDDD;
+$gray7: #EEEEEE;
+$gray8: #888888;
+$blue: #68B3C8;
+$white: #FFFFFF;
+$red: #FF0000;
+$green: #3FCC3F;
