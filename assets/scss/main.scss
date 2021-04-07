@@ -1,0 +1,293 @@
+@import "~assets/scss/variables";
+
+/***** COMMON *****/
+body {
+  background-color: $gray5;
+  color: $gray1;
+  font-size: 14px;
+}
+
+a {
+  color: $blue;
+}
+
+.not-intext-link {
+  color: $gray1;
+  opacity: 0.7;
+  transition: opacity 0.7s;
+}
+
+.not-intext-link:hover {
+  opacity: 1;
+}
+
+.active-element {
+  color: $orange !important;
+  opacity: 1 !important;
+}
+
+li:not(.active) > a {
+  color: $gray1;
+}
+
+.desktop-only {
+  display: none;
+}
+/***** COMMON *****/
+
+.row {
+  margin: 0;
+}
+
+.row .col {
+  padding: 0;
+}
+
+.input-field > label {
+  font-size: 16px;
+}
+
+.btn,
+.btn-large,
+.btn-small {
+  background-color: $orange;
+}
+
+.btn:hover,
+.btn-large:hover,
+.btn-small:hover {
+  background-color: $orange1;
+}
+
+.btn:focus,
+.btn-large:focus,
+.btn-small:focus,
+.btn-floating:focus {
+  background-color: $orange2;
+}
+
+[type="checkbox"].filled-in:checked + span:not(.lever):after {
+  top: 0;
+  width: 20px;
+  height: 20px;
+  border: 2px solid $orange;
+  background-color: $orange;
+  z-index: 0;
+}
+
+[type="checkbox"].filled-in:not(:checked) + span:not(.lever):after {
+  height: 20px;
+  width: 20px;
+  background-color: transparent;
+  border: 1px solid rgba(102, 97, 91, 0.4);
+  top: 0px;
+  z-index: 0;
+}
+
+[type="checkbox"].filled-in.tabbed:checked:focus + span:not(.lever):after {
+  border: 2px solid $orange;
+  background-color: $orange;
+}
+
+[type="radio"]:not(:checked) + span:before,
+[type="radio"]:not(:checked) + span:after {
+  border: 1px solid rgba(102, 97, 91, 0.5);
+}
+
+[type="radio"]:checked + span:after,
+[type="radio"].with-gap:checked + span:before,
+[type="radio"].with-gap:checked + span:after {
+  border: 1px solid $orange;
+}
+
+[type="radio"]:checked + span:after,
+[type="radio"].with-gap:checked + span:after {
+  background-color: $orange;
+}
+
+label {
+  color: $gray1;
+}
+
+input[type=text]:not(.browser-default) {
+  border-bottom: 1px solid rgba(102, 97, 91, 0.3);
+}
+
+input[type=text]:not(.browser-default):focus:not([readonly]) + label {
+  color: $orange;
+}
+
+input[type=text]:not(.browser-default):focus:not([readonly]),
+input.valid[type=text]:not(.browser-default) {
+  border-bottom: 1px solid $orange;
+  box-shadow: 0 1px 0 0 $orange;
+}
+
+input[type=checkbox]:checked:not(:disabled) ~ .lever:active::before,
+input[type=checkbox]:checked:not(:disabled).tabbed:focus ~ .lever::before {
+  background-color: rgb(235 94 40 / 0.15);
+}
+
+.switch label input[type=checkbox]:checked + .lever {
+  background-color: $orange4;
+}
+
+.switch label input[type=checkbox]:checked + .lever:after {
+  background-color: $orange;
+}
+
+.switch label {
+  font-size: 16px;
+}
+
+.flex-table .header {
+  display: none;
+}
+
+.flex-table .body-row {
+  position: relative;
+  margin-bottom: 15px;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  overflow: hidden;
+  height: 43px;
+  border-radius: 6px;
+  background-color: $white;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.15);
+  transition: height 0.3s;
+}
+
+.flex-table .body-row:last-child {
+  margin-bottom: 0;
+}
+
+.flex-table .cell {
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.flex-table .body .cell .caption {
+  margin-right: 5px;
+  font-weight: bold;
+}
+
+.cell .material-icons {
+  position: relative;
+  top: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  color: $white;
+  line-height: 18px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.cell.not-passed .material-icons {
+  background-color: $red;
+}
+
+.cell.passed .material-icons {
+  background-color: $green;
+}
+
+.cell-button {
+  cursor: pointer;
+}
+
+.acc-mobile-arrow {
+  position: absolute;
+  background-color: $white;
+  right: 10px;
+}
+
+.input-field .helper-text {
+  display: none;
+}
+
+.input-field .helper-text.invalid {
+  display: block;
+  color: $red;
+}
+
+@include w_993 {
+  /***** COMMON *****/
+  .desktop-only {
+    display: block;
+  }
+  /***** COMMON *****/
+
+  .row {
+    margin: 0 -15px;
+  }
+
+  .row .col {
+    padding: 0 15px;
+  }
+
+  .flex-table {
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .flex-table .body-row:last-child .cell {
+    border: none;
+  }
+
+  .flex-table .body-row,
+  .flex-table .header {
+    margin-bottom: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    overflow: visible;
+    height: auto;
+    border-radius: 0;
+    background-color: transparent;
+    box-shadow: none;
+    transition: none;
+  }
+
+  .flex-table .header {
+    position: sticky;
+    top: 75px;
+    z-index: 1;
+    background-color: $gray5;
+  }
+
+  .flex-table .header .cell {
+    text-align: center;
+  }
+
+  .flex-table .cell {
+    padding: 15px 10px;
+    border-bottom: 1px solid rgba(102, 97, 91, 0.3);
+    text-align: center;
+  }
+
+  .flex-table .body .cell {
+    margin-bottom: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: normal;
+  }
+
+  .flex-table .body .cell .caption {
+    display: none;
+  }
+
+  .cell .material-icons {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    color: $white;
+    font-size: 16px;
+    line-height: 30px;
+  }
+
+  .acc-mobile-arrow {
+    display: none;
+  }
+}

@@ -11,16 +11,26 @@ export default {
       { hid: 'description', name: 'description', content: '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      {
+        rel: 'icon',
+        type: 'image/x-icon',
+        href: '/favicon.ico'
+      },
+      {
+        rel: 'stylesheet',
+        href: '//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic|Material+Icons'
+      }
     ]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    '@/assets/scss/main.scss'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '@/plugins/VueMaterial.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -38,5 +48,9 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    loaders: {
+      scss: { sourceMap: process.env.NODE_ENV === 'production' },
+      vue: { cacheBusting: process.env.NODE_ENV === 'production' }
+    },
   }
 }
