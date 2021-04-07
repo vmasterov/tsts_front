@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -11,16 +13,27 @@ export default {
       { hid: 'description', name: 'description', content: '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      {
+        rel: 'icon',
+        type: 'image/x-icon',
+        href: '/favicon.ico'
+      },
+      {
+        rel: 'stylesheet',
+        href: '//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic|Material+Icons'
+      }
     ]
   },
 
-  // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-  ],
-
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '@/plugins/VueMaterial.js'
+  ],
+
+  // Global CSS: https://go.nuxtjs.dev/config-css
+  css: [
+    'vue-material/dist/vue-material.min.css',
+    '@/assets/scss/main.scss'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -38,5 +51,30 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-  }
+    loaders: {
+      // Broke page styles when live changing it n Chrome DevTools with webpack template
+      // @see https://github.com/vuejs-templates/webpack/issues/1331
+      scss: {
+        sourceMap: process.env.NODE_ENV === 'production'
+      }
+    },
+
+    optimization: {
+      splitChunks: {
+        // @see https://webpack.js.org/guides/build-performance/
+        maxSize: 250000
+      }
+    }
+  },
+
+  router: {
+    extendRoutes(routes, resolve) {
+      routes.push({
+        path: '/my-tests',
+        component: resolve(__dirname, 'pages/tests.vue')
+      })
+    }
+  },
+
+  loading: false
 }
