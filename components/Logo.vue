@@ -12,7 +12,7 @@
   .logo {
     margin: 0 20px;
     padding: 18px 0;
-    border-bottom: 1px solid rgba(102, 97, 91, 0.3);
+    border-bottom: 1px solid rgba($gray1, 0.3);
   }
 
   .simple-text {
