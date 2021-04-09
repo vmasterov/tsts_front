@@ -67,5 +67,14 @@ export default {
     }
   },
 
+  router: {
+    extendRoutes(routes, resolve) {
+      routes.push({
+        path: '/my-tests',
+        component: resolve(__dirname, 'pages/tests.vue')
+      })
+    }
+  },
+
   loading: false
 }

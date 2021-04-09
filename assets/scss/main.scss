@@ -52,10 +52,6 @@ input::placeholder {
   opacity: 1 !important;
 }
 
-li:not(.active) > a {
-  color: $gray1;
-}
-
 .desktop-only {
   display: none;
 }

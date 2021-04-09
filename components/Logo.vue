@@ -24,6 +24,10 @@
     line-height: 30px;
     text-align: center;
     text-transform: uppercase;
+
+    &:hover {
+      text-decoration: none;
+    }
   }
 
   @include w_993 {
