@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar">
+  <div class="sidebar" :class="{'open': isSidebarOpen}">
     <div class="sidebar-wrapper">
       <Logo />
       <SidebarSearch />
@@ -9,6 +9,8 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
+
   import Logo from '~/components/Logo'
   import SidebarSearch from '~/components/SidebarSearch'
   import SidebarNavigation from '~/components/SidebarNavigation'
@@ -18,6 +20,10 @@
       Logo,
       SidebarSearch,
       SidebarNavigation
+    },
+
+    computed: {
+      ...mapState('main', ['isSidebarOpen'])
     }
   }
 </script>

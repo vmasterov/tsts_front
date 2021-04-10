@@ -1,7 +1,10 @@
 <template>
   <div class="wrapper">
     <Sidebar />
-    <div class="main-panel">
+    <div
+      class="main-panel"
+      :class="{'open': isSidebarOpen, 'active': isSidebarOpen}"
+    >
       <MainPanelNavbar />
       <div class="main-panel-content">
         <Nuxt />
@@ -12,6 +15,8 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
+
   import Sidebar from '~/components/Sidebar'
   import MainPanelNavbar from '~/components/MainPanelNavbar'
   import MainPanelFooter from '~/components/MainPanelFooter'
@@ -21,6 +26,10 @@
       Sidebar,
       MainPanelNavbar,
       MainPanelFooter
+    },
+
+    computed: {
+      ...mapState('main', ['isSidebarOpen'])
     }
   }
 </script>
