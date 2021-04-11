@@ -33,6 +33,7 @@ export default {
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     'vue-material/dist/vue-material.min.css',
+    '@/assets/scss/grid.scss',
     '@/assets/scss/main.scss'
   ],
 

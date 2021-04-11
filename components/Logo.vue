@@ -46,7 +46,4 @@
       text-decoration: none;
     }
   }
-
-  @include w_993 {
-  }
 </style>
