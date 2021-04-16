@@ -46,6 +46,8 @@
 </template>
 
 <script>
+  import axios from '~/plugins/axios'
+
   export default {
     data: () => {
       return {
@@ -80,7 +82,18 @@
       },
 
       loginUser () {
-        alert(JSON.stringify(this.user))
+        axios({ url: '/users/', method: 'GET' })
+          .then((resp) => {
+            console.log(resp)
+          })
+          .catch((error) => {
+            if (!error.response) {
+              console.log('Error: Network Error')
+            }
+            else {
+              console.log(error.response.data.message)
+            }
+          })
         this.clearForm()
         event.target.reset()
       },
