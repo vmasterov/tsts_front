@@ -7,11 +7,8 @@
 </template>
 
 <script>
-  import https from 'https'
-
+  import { mapState, mapActions } from 'vuex'
   import TestCard from '~/components/TestCard'
-
-  const agent = new https.Agent({ rejectUnauthorized: false })
 
   export default {
     components: {
@@ -24,12 +21,22 @@
       }
     },
 
-    async fetch () {
-      this.users = await fetch('https://localhost:3444/users/', { agent }).then(res => res.json())
+    computed: {
+      ...mapState('authenticated', ['token'])
     },
 
     mounted () {
-      console.log('users:', this.users)
+      this.getUser({
+        url: '/users/user',
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + this.token
+        }
+      })
+    },
+
+    methods: {
+      ...mapActions('user', ['getUser'])
     }
   }
 </script>

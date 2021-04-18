@@ -5,17 +5,17 @@
     <form @submit.prevent="loginUser">
       <div class="input-field">
         <md-field class="enter-field">
-          <label>Email</label>
+          <label>Логин</label>
           <md-input
-            id="email"
-            v-model="user.email"
+            id="username"
+            v-model="user.username"
             type="text"
-            name="email"
-            autocomplete="email"
+            name="username"
+            autocomplete="username"
             @keyup="handleChange"
           />
         </md-field>
-        <div class="helper-text" :class="getValidationClass('email')">{{ errors.email }}</div>
+        <div class="helper-text" :class="getValidationClass('username')">{{ errors.username }}</div>
       </div>
 
       <div class="input-field">
@@ -32,6 +32,9 @@
         </md-field>
         <div class="helper-text" :class="getValidationClass('password')">{{ errors.password }}</div>
       </div>
+      <div class="input-field">
+        <div class="helper-text" :class="getValidationClass('incorrectData')">{{ errors.incorrectData }}</div>
+      </div>
 
       <md-button
         class="md-raised md-primary enter-button"
@@ -46,45 +49,55 @@
 </template>
 
 <script>
+  import { mapActions } from 'vuex'
   import axios from '~/plugins/axios'
+
+  const Cookie = process.client ? require('js-cookie') : undefined
 
   export default {
     data: () => {
       return {
         user: {
-          email: '',
+          username: '',
           password: ''
         },
         errors: {
-          email: '',
-          password: ''
+          username: '',
+          password: '',
+          incorrectData: ''
         },
         isDisableSubmit: true,
-        passCharCount: 3
+        passCharCount: 1
       }
     },
 
     watch: {
-      'user.email': function () {
+      'errors.username': function () {
         this.checkDisableSubmit()
       },
-      'user.password': function () {
+      'errors.password': function () {
         this.checkDisableSubmit()
       }
     },
 
     methods: {
+      ...mapActions('authenticated', ['setToken']),
+
       checkDisableSubmit () {
-        setTimeout(() => {
-          this.isDisableSubmit = (Boolean(this.errors.email) || !this.user.email.length) ||
-            (Boolean(this.errors.password) || !this.user.password.length)
-        }, 500)
+        this.isDisableSubmit = (Boolean(this.errors.username) || this.user.username.length < 3) ||
+          (Boolean(this.errors.password) || this.user.password.length < this.passCharCount)
       },
 
       loginUser () {
-        axios({ url: '/users/', method: 'GET' })
-          .then((resp) => {
-            console.log(resp)
+        axios({
+          url: '/users/singin',
+          method: 'POST',
+          data: this.user
+        })
+          .then(({ data }) => {
+            this.setToken(data.token)
+            Cookie.set('token', data.token)
+            this.$router.push('/my-tests')
           })
           .catch((error) => {
             if (!error.response) {
@@ -92,6 +105,7 @@
             }
             else {
               console.log(error.response.data.message)
+              this.errors.incorrectData = error.response.data.message
             }
           })
         this.clearForm()
@@ -100,16 +114,19 @@
 
       getValidationClass (fieldName) {
         switch (fieldName) {
-          case 'email':
-            return { invalid: this.errors.email }
+          case 'username':
+            return { invalid: this.errors.username }
           case 'password':
             return { invalid: this.errors.password }
+          case 'incorrectData':
+            return { invalid: this.errors.incorrectData }
           default:
             return null
         }
       },
 
-      handleChange () {
+      handleChange (event) {
+        if (event.key === 'Enter') return
         const target = event.target
         const value = target.type === 'checkbox' ? target.checked : target.value
         const name = target.name
@@ -117,18 +134,19 @@
       },
 
       clearForm () {
-        this.user.email = ''
+        this.user.username = ''
         this.user.password = ''
-        this.errors.email = ''
+        this.errors.username = ''
         this.errors.password = ''
+        this.errors.incorrectData = ''
       },
 
       validate (name, value) {
-        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        const isUserName = /^[a-z0-9_-]{3,16}$/igm
         switch (name) {
-          case 'email':
-            if (!re.test(value.toLowerCase())) this.errors.email = 'Некорректный email'
-            else this.errors.email = ''
+          case 'username':
+            if (!isUserName.test(value.toLowerCase())) this.errors.username = 'Логин может содержать латиннские буквы, тире и подчеркивания. Длина от 3 до 16 символов'
+            else this.errors.username = ''
             return
 
           case 'password':

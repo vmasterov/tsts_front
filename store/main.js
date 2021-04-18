@@ -1,3 +1,5 @@
+import { MAIN_TOGGLE_SIDEBAR_OPEN } from './mutation-types'
+
 export default {
   state: () => {
     return {
@@ -5,14 +7,14 @@ export default {
     }
   },
   mutations: {
-    toggleSidebarOpen (state) {
+    [MAIN_TOGGLE_SIDEBAR_OPEN] (state) {
       state.isSidebarOpen = !state.isSidebarOpen
     }
   },
 
   actions: {
     toggleSidebarOpen ({ commit }) {
-      commit('toggleSidebarOpen')
+      commit(MAIN_TOGGLE_SIDEBAR_OPEN)
     }
   }
 }

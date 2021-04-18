@@ -28,7 +28,7 @@
       </md-menu-item>
       <md-menu-item
         class="dropwdown-item"
-        @click="$router.push('/exit')"
+        @click="logout()"
       >
         Выход
       </md-menu-item>
@@ -38,6 +38,8 @@
 
 <script>
   export default {
+    inject: ['logout'],
+
     data () {
       return {
         data: '',

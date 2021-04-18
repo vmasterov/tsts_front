@@ -15,11 +15,14 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
+  import { mapState, mapActions, mapMutations } from 'vuex'
+  import { ADD_USER } from '~/store/mutation-types'
 
   import Sidebar from '~/components/Sidebar'
   import MainPanelNavbar from '~/components/MainPanelNavbar'
   import MainPanelFooter from '~/components/MainPanelFooter'
+
+  const Cookie = process.client ? require('js-cookie') : undefined
 
   export default {
     components: {
@@ -28,8 +31,28 @@
       MainPanelFooter
     },
 
+    provide () {
+      return {
+        logout: this.logout
+      }
+    },
+
+    middleware: 'authenticated',
+
     computed: {
       ...mapState('main', ['isSidebarOpen'])
+    },
+
+    methods: {
+      ...mapActions('authenticated', ['setToken']),
+      ...mapMutations('user', { addUserCommit: ADD_USER }),
+
+      logout () {
+        Cookie.remove('token')
+        this.setToken(null)
+        this.addUserCommit({})
+        this.$router.push('/singin')
+      }
     }
   }
 </script>

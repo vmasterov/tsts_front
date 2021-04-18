@@ -27,7 +27,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '~/plugins/VueMaterial.js'
+    '~/plugins/vue-material.js'
   ],
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -69,11 +69,13 @@ export default {
   },
 
   router: {
-    extendRoutes(routes, resolve) {
-      routes.push({
-        path: '/my-tests',
-        component: resolve(__dirname, 'pages/tests.vue')
-      })
+    extendRoutes (routes, resolve) {
+      routes.push(
+        {
+          path: '/my-tests',
+          component: resolve(__dirname, 'pages/tests.vue')
+        }
+      )
     }
   },
 

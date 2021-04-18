@@ -9,7 +9,7 @@
         <NuxtLink
           :to="item.link"
           class="waves-effect waves-dark nav-link"
-          @click.native="menuClick"
+          @click.native="menuClick(item.type)"
         >
           <i class="material-icons nav-icon">{{ item.icon }}</i>
           <span class="nav-text">{{ item.text }}</span>
@@ -23,6 +23,8 @@
   import { mapActions } from 'vuex'
 
   export default {
+    inject: ['logout'],
+
     data: () => {
       return {
         navigation: [
@@ -64,9 +66,10 @@
           },
           {
             id: 7,
-            link: '/exit',
+            link: '/singin',
             text: 'Выход',
-            icon: 'exit_to_app'
+            icon: 'exit_to_app',
+            type: 'logout'
           }
         ]
       }
@@ -74,7 +77,9 @@
 
     methods: {
       ...mapActions('main', ['toggleSidebarOpen']),
-      menuClick () {
+
+      menuClick (type) {
+        if (type === 'logout') this.logout()
         this.toggleSidebarOpen()
       }
     }

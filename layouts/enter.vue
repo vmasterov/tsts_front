@@ -10,6 +10,7 @@
 
 <script>
   export default {
+    middleware: 'non-authenticated'
   }
 </script>
 

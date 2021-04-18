@@ -1,0 +1,3 @@
+export const MAIN_TOGGLE_SIDEBAR_OPEN = 'MAIN_TOGGLE_SIDEBAR_OPEN'
+export const AUTH_SET_TOKEN = 'AUTH_SET_TOKEN'
+export const ADD_USER = 'ADD_USER'
