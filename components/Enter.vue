@@ -17,7 +17,20 @@
         </md-field>
         <div class="helper-text" :class="getValidationClass('username')">{{ errors.username }}</div>
       </div>
-
+      <div v-if="isSingup" class="input-field">
+        <md-field class="enter-field">
+          <label>Почта</label>
+          <md-input
+            id="email"
+            v-model="user.email"
+            type="text"
+            name="email"
+            autocomplete="email"
+            @keyup="handleChange"
+          />
+        </md-field>
+        <div class="helper-text" :class="getValidationClass('email')">{{ errors.email }}</div>
+      </div>
       <div class="input-field">
         <md-field class="enter-field">
           <label>Пароль</label>
@@ -41,9 +54,9 @@
         type="submit"
         :disabled="isDisableSubmit"
       >
-        Войти
+        {{ buttonText }}
       </md-button>
-      <div class="enter-extra">Нет аккаунта? <a href="registration.html">Зарегистрироваться</a></div>
+      <div class="enter-extra" v-html="extraText" />
     </form>
   </div>
 </template>
@@ -59,15 +72,32 @@
       return {
         user: {
           username: '',
+          email: '',
           password: ''
         },
         errors: {
           username: '',
+          email: '',
           password: '',
           incorrectData: ''
         },
         isDisableSubmit: true,
-        passCharCount: 1
+        passCharCount: 1,
+        isSingup: null
+      }
+    },
+
+    computed: {
+      extraText () {
+        if (this.isSingup) {
+          return 'Уже есть аккунт? <a href="/singin">Войти</a>'
+        }
+        else {
+          return 'Нет аккаунта? <a href="/singup">Зарегистрироваться</a>'
+        }
+      },
+      buttonText () {
+        return this.isSingup ? 'Зарегистрироавться' : 'Войти'
       }
     },
 
@@ -75,9 +105,16 @@
       'errors.username': function () {
         this.checkDisableSubmit()
       },
+      'errors.email': function () {
+        this.checkDisableSubmit()
+      },
       'errors.password': function () {
         this.checkDisableSubmit()
       }
+    },
+
+    created () {
+      this.isSingup = this.$route.path.slice(1) === 'singup'
     },
 
     methods: {
@@ -85,7 +122,8 @@
 
       checkDisableSubmit () {
         this.isDisableSubmit = (Boolean(this.errors.username) || this.user.username.length < 3) ||
-          (Boolean(this.errors.password) || this.user.password.length < this.passCharCount)
+          (Boolean(this.errors.password) || this.user.password.length < this.passCharCount) ||
+          Boolean(this.errors.email)
       },
 
       loginUser () {
@@ -116,6 +154,8 @@
         switch (fieldName) {
           case 'username':
             return { invalid: this.errors.username }
+          case 'email':
+            return { invalid: this.errors.email }
           case 'password':
             return { invalid: this.errors.password }
           case 'incorrectData':
@@ -135,18 +175,27 @@
 
       clearForm () {
         this.user.username = ''
+        this.user.email = ''
         this.user.password = ''
         this.errors.username = ''
+        this.errors.eamil = ''
         this.errors.password = ''
         this.errors.incorrectData = ''
       },
 
       validate (name, value) {
         const isUserName = /^[a-z0-9_-]{3,16}$/igm
+        const isEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/igm
+
         switch (name) {
           case 'username':
             if (!isUserName.test(value.toLowerCase())) this.errors.username = 'Логин может содержать латиннские буквы, тире и подчеркивания. Длина от 3 до 16 символов'
             else this.errors.username = ''
+            return
+
+          case 'email':
+            if (!isEmail.test(value.toLowerCase())) this.errors.email = 'Некорректный адрес почты. Пример: test@gmail.com'
+            else this.errors.email = ''
             return
 
           case 'password':

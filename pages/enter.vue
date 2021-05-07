@@ -1,13 +1,13 @@
 <template>
-  <Singin />
+  <Enter />
 </template>
 
 <script>
-  import Singin from '~/components/Singin'
+  import Enter from '~/components/Enter'
 
   export default {
     components: {
-      Singin
+      Enter
     },
 
     layout: 'enter'

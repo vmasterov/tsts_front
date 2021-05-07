@@ -74,6 +74,14 @@ export default {
         {
           path: '/my-tests',
           component: resolve(__dirname, 'pages/tests.vue')
+        },
+        {
+          path: '/singin',
+          component: resolve(__dirname, 'pages/enter.vue')
+        },
+        {
+          path: '/singup',
+          component: resolve(__dirname, 'pages/enter.vue')
         }
       )
     }

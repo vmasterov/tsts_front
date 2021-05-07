@@ -23,6 +23,7 @@ module.exports = {
     'vue/html-indent': ['error', 2, { baseIndent: 1 }],
     'vue/script-indent': ['error', 2, { baseIndent: 1, switchCase: 1 }],
     'vue/singleline-html-element-content-newline': 'off',
-    'vue/multiline-html-element-content-newline': 'off'
+    'vue/multiline-html-element-content-newline': 'off',
+    'vue/no-v-html': 'off'
   }
 }
