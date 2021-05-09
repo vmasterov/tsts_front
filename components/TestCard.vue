@@ -1,7 +1,8 @@
 <template>
   <NuxtLink
-    to="/my-tests/test"
+    :to="slug"
     class="test z-depth-1"
+    @click.native="setCurrentPageName(test.name)"
   >
     <span class="test-cover" :style="testCover('01.jpg')" />
     <span class="test-image" :style="testCover('01.jpg')" />
@@ -12,35 +13,57 @@
       <i class="material-icons">delete</i>
     </button>
     <span class="test-data">
-      <span class="test-data-name">Java Script</span>
-      <span class="test-data-date">21.01.2020</span>
+      <span class="test-data-name">{{ test.name }}</span>
+      <span class="test-data-date">{{ createdTime }}</span>
     </span>
     <span class="test-extra">
       <span class="test-extra-item">
-        <span class="test-extra-info">12</span>
+        <span class="test-extra-info">{{ test.questions.length }}</span>
         <span class="test-extra-text">Вопросы</span>
       </span>
       <span class="test-extra-item">
-        <span class="test-extra-info">10</span>
+        <span class="test-extra-info">{{ test.time }}</span>
         <span class="test-extra-text">Минуты</span>
       </span>
       <span class="test-extra-item">
-        <span class="test-extra-info">12/15</span>
-        <span class="test-extra-text">Успешно</span>
+        <span class="test-extra-info">{{ test.complexity }}/10</span>
+        <span class="test-extra-text">Сложность</span>
       </span>
     </span>
   </NuxtLink>
 </template>
 
 <script>
+  import { mapActions } from 'vuex'
+
   export default {
+    props: {
+      test: {
+        type: Object,
+        default: () => {}
+      }
+    },
+
+    computed: {
+      slug () {
+        return `/my-tests/${this.test._id}`
+      },
+
+      createdTime () {
+        return new Intl.DateTimeFormat('ru-RU').format(new Date(this.test.created))
+      }
+    },
+
     methods: {
+      ...mapActions('main', ['setCurrentPageName']),
+
       testCover (image) {
         return {
           backgroundImage: 'url(' + require('@/assets/images/test-covers/' + image) + ')'
         }
       }
     }
+
   }
 </script>
 

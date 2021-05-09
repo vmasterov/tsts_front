@@ -56,7 +56,12 @@
       >
         {{ buttonText }}
       </md-button>
-      <div class="enter-extra" v-html="extraText" />
+      <div v-if="isSingup" class="enter-extra">
+        Уже есть аккунт? <NuxtLink :to="getRoute()">Войти</NuxtLink>
+      </div>
+      <div v-else class="enter-extra">
+        Нет аккаунта? <NuxtLink :to="getRoute()">Зарегистрироваться</NuxtLink>
+      </div>
     </form>
   </div>
 </template>
@@ -88,14 +93,6 @@
     },
 
     computed: {
-      extraText () {
-        if (this.isSingup) {
-          return 'Уже есть аккунт? <a href="/singin">Войти</a>'
-        }
-        else {
-          return 'Нет аккаунта? <a href="/singup">Зарегистрироваться</a>'
-        }
-      },
       buttonText () {
         return this.isSingup ? 'Зарегистрироавться' : 'Войти'
       }
@@ -120,6 +117,11 @@
     methods: {
       ...mapActions('authenticated', ['setToken']),
 
+      getRoute (endpoint) {
+        if (endpoint) return this.isSingup ? 'singup' : 'singin'
+        else return this.isSingup ? 'singin' : 'singup'
+      },
+
       checkDisableSubmit () {
         this.isDisableSubmit = (Boolean(this.errors.username) || this.user.username.length < 3) ||
           (Boolean(this.errors.password) || this.user.password.length < this.passCharCount) ||
@@ -128,7 +130,7 @@
 
       loginUser () {
         axios({
-          url: '/users/singin',
+          url: `/users/${this.getRoute(true)}`,
           method: 'POST',
           data: this.user
         })

@@ -12,11 +12,17 @@
 
 <script>
   import { mapActions } from 'vuex'
+  import navigation from '~/components/navigation-items'
 
   export default {
     methods: {
-      ...mapActions('main', ['toggleSidebarOpen']),
+      ...mapActions('main', [
+        'toggleSidebarOpen',
+        'setCurrentPageName'
+      ]),
+
       menuClick () {
+        this.setCurrentPageName(navigation.find(item => item.id === 1).text)
         this.toggleSidebarOpen()
       }
     }

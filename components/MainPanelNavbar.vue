@@ -1,12 +1,13 @@
 <template>
   <div class="main-panel-navbar">
-    <div class="section-name">Мои тесты</div>
+    <div class="section-name">{{ currentPageName }}</div>
     <MainPanelBurger />
     <MainPanelUser />
   </div>
 </template>
 
 <script>
+  import { mapState } from 'vuex'
   import MainPanelBurger from '~/components/MainPanelBurger'
   import MainPanelUser from '~/components/MainPanelUser'
 
@@ -14,6 +15,10 @@
     components: {
       MainPanelBurger,
       MainPanelUser
+    },
+
+    computed: {
+      ...mapState('main', ['currentPageName'])
     }
   }
 </script>

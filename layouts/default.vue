@@ -40,11 +40,23 @@
     middleware: 'authenticated',
 
     computed: {
-      ...mapState('main', ['isSidebarOpen'])
+      ...mapState('main', ['isSidebarOpen']),
+      ...mapState('authenticated', ['token'])
+    },
+
+    mounted () {
+      this.getUser({
+        url: '/users/user',
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + this.token
+        }
+      })
     },
 
     methods: {
       ...mapActions('authenticated', ['setToken']),
+      ...mapActions('user', ['getUser']),
       ...mapMutations('user', { addUserCommit: ADD_USER }),
 
       logout () {

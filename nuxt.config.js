@@ -73,7 +73,11 @@ export default {
       routes.push(
         {
           path: '/my-tests',
-          component: resolve(__dirname, 'pages/tests.vue')
+          component: resolve(__dirname, 'pages/tests/index.vue')
+        },
+        {
+          path: '/my-tests/*',
+          component: resolve(__dirname, 'pages/tests/_.vue')
         },
         {
           path: '/singin',

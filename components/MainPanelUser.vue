@@ -22,7 +22,7 @@
     <md-menu-content :style="dropdownStyle">
       <md-menu-item
         class="dropwdown-item"
-        @click="$router.push('/profile')"
+        @click="goToProfile()"
       >
         Профиль
       </md-menu-item>
@@ -37,6 +37,9 @@
 </template>
 
 <script>
+  import { mapActions } from 'vuex'
+  import navigation from '~/components/navigation-items'
+
   export default {
     inject: ['logout'],
 
@@ -52,6 +55,16 @@
 
     mounted () {
       this.dropdownStyle.width = `${this.$refs.userDropdown.offsetWidth}px`
+    },
+
+    methods: {
+      ...mapActions('main', ['setCurrentPageName']),
+
+      goToProfile () {
+        const url = '/profile'
+        this.setCurrentPageName(navigation.find(item => item.link === url).text)
+        this.$router.push(url)
+      }
     }
   }
 </script>
