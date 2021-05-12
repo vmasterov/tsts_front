@@ -1,13 +1,15 @@
 import {
   MAIN_TOGGLE_SIDEBAR_OPEN,
-  SET_CURRENT_PAGE_NAME
+  SET_CURRENT_PAGE_NAME,
+  IS_BLURED
 } from './mutation-types'
 
 export default {
   state: () => {
     return {
       isSidebarOpen: false,
-      currentPageName: ''
+      currentPageName: '',
+      isBlured: true
     }
   },
   mutations: {
@@ -17,6 +19,10 @@ export default {
 
     [SET_CURRENT_PAGE_NAME] (state, payload) {
       state.currentPageName = payload
+    },
+
+    [IS_BLURED] (state, payload) {
+      state.isBlured = payload
     }
   },
 

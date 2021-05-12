@@ -14,6 +14,10 @@ a {
   color: $blue;
 }
 
+.blur {
+  filter: blur(3px);
+}
+
 .md-menu-content-container {
   .md-list {
     padding: 0;
@@ -58,6 +62,12 @@ textarea.materialize-textarea {
   transition: border .3s, -webkit-box-shadow .3s;
   transition: box-shadow .3s, border .3s;
   transition: box-shadow .3s, border .3s, -webkit-box-shadow .3s;
+}
+
+.md-button {
+  &:hover {
+    background-color: $orange1;
+  }
 }
 
 .md-button[disabled] {
@@ -132,6 +142,10 @@ input::placeholder {
 }
 
 .md-ripple-wave {
+  background: $orange;
+}
+
+.md-button .md-ripple-wave {
   background: $white;
 }
 
@@ -307,6 +321,28 @@ input[type=checkbox]:checked:not(:disabled).tabbed:focus ~ .lever::before {
 .md-field.md-focused label,
 .md-field.md-has-value label {
   color: $orange;
+}
+
+.md-radio .md-radio-container,
+.md-checkbox .md-checkbox-container {
+  border-color: rgba($gray1, 0.3);
+}
+
+.md-checkbox.md-checked .md-checkbox-container {
+  background-color: $orange;
+  border-color: $orange;
+}
+
+.md-checkbox.md-checked .md-checkbox-container:after {
+  border-color: $white;
+}
+
+.md-radio.md-checked .md-radio-container {
+  border-color: $orange;
+}
+
+.md-radio.md-checked .md-radio-container:after {
+  background-color: $orange;
 }
 
 @include w_993 {

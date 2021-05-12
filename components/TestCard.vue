@@ -2,7 +2,7 @@
   <NuxtLink
     :to="slug"
     class="test z-depth-1"
-    @click.native="setCurrentPageName(test.name)"
+    @click.native="goToTest()"
   >
     <span class="test-cover" :style="testCover('01.jpg')" />
     <span class="test-image" :style="testCover('01.jpg')" />
@@ -19,7 +19,7 @@
     <span class="test-extra">
       <span class="test-extra-item">
         <span class="test-extra-info">{{ test.questions.length }}</span>
-        <span class="test-extra-text">Вопросы</span>
+        <span class="test-extra-text">Вопросы <h1>плюрализация!</h1></span>
       </span>
       <span class="test-extra-item">
         <span class="test-extra-info">{{ test.time }}</span>
@@ -34,7 +34,8 @@
 </template>
 
 <script>
-  import { mapActions } from 'vuex'
+  import { mapActions, mapMutations } from 'vuex'
+  import { ADD_CURRENT_TESTS } from '~/store/mutation-types'
 
   export default {
     props: {
@@ -56,11 +57,16 @@
 
     methods: {
       ...mapActions('main', ['setCurrentPageName']),
+      ...mapMutations('user', { addCurrentTestCommit: ADD_CURRENT_TESTS }),
 
       testCover (image) {
         return {
           backgroundImage: 'url(' + require('@/assets/images/test-covers/' + image) + ')'
         }
+      },
+
+      goToTest () {
+        this.addCurrentTestCommit(this.test)
       }
     }
 

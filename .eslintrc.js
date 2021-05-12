@@ -18,6 +18,7 @@ module.exports = {
     'brace-style': ['error', 'stroustrup'],
     curly: [2, 'multi-line'],
     'no-console': 'off',
+    'arrow-parens': 'off',
     'object-shorthand': ['error', 'always', { avoidQuotes: true }],
     indent: 'off',
     'vue/html-indent': ['error', 2, { baseIndent: 1 }],

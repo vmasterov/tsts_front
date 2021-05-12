@@ -4,7 +4,9 @@ import {
   MdRipple,
   MdMenu,
   MdList,
-  MdField
+  MdField,
+  MdCheckbox,
+  MdRadio
 } from 'vue-material/dist/components'
 import 'vue-material/dist/vue-material.min.css'
 
@@ -13,3 +15,5 @@ Vue.use(MdRipple)
 Vue.use(MdMenu)
 Vue.use(MdList)
 Vue.use(MdField)
+Vue.use(MdCheckbox)
+Vue.use(MdRadio)

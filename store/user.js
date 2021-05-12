@@ -1,6 +1,7 @@
 import {
   ADD_USER,
-  ADD_TESTS
+  ADD_TESTS,
+  ADD_CURRENT_TESTS
 } from './mutation-types'
 import axios from '~/plugins/axios'
 
@@ -8,7 +9,8 @@ export default {
   state: () => {
     return {
       user: {},
-      userTests: []
+      tests: [],
+      currentTest: {}
     }
   },
   mutations: {
@@ -17,7 +19,11 @@ export default {
     },
 
     [ADD_TESTS] (state, payload) {
-      state.userTests = payload
+      state.tests = payload
+    },
+
+    [ADD_CURRENT_TESTS] (state, payload) {
+      state.currentTest = payload
     }
   },
 
@@ -26,7 +32,6 @@ export default {
       if (state.user._id) return
       try {
         const resp = await axios(payload)
-        // console.log(resp)
         commit(ADD_USER, resp.data)
       }
       catch (error) {
@@ -40,7 +45,7 @@ export default {
     },
 
     async getTests ({ state, commit }, payload) {
-      if (state.userTests.length) return
+      if (state.tests.length) return
       try {
         const resp = await axios(payload)
         commit(ADD_TESTS, resp.data)
@@ -56,10 +61,10 @@ export default {
     },
 
     async getTest ({ state, commit }, payload) {
-      // if (state.userTests.length) return
       try {
         const resp = await axios(payload)
-        commit(ADD_TESTS, resp.data)
+        const data = resp.data ? resp.data[0] : {}
+        commit(ADD_CURRENT_TESTS, data)
       }
       catch (error) {
         if (!error.response) {
@@ -73,7 +78,7 @@ export default {
   },
 
   getters: {
-    userTests (state) {
+    tests (state) {
       return state.user.tests
     }
   }

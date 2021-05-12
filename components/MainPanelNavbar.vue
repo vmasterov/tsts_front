@@ -1,6 +1,6 @@
 <template>
   <div class="main-panel-navbar">
-    <div class="section-name">{{ currentPageName }}</div>
+    <h1 class="section-name">{{ currentPageName }}</h1>
     <MainPanelBurger />
     <MainPanelUser />
   </div>
@@ -51,6 +51,7 @@
   .section-name {
     color: $gray1;
     font-size: 20px;
+    font-weight: normal;
   }
 
   @include w_993 {

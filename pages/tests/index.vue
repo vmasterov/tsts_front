@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div
-      v-for="test in userTests"
+      v-for="test in tests"
       :key="test._id"
       class="col xl4 l6 s12"
     >
@@ -26,7 +26,7 @@
     computed: {
       ...mapState('user', [
         'user',
-        'userTests'
+        'tests'
       ]),
       ...mapState('authenticated', ['token'])
     },
@@ -38,7 +38,7 @@
     },
 
     mounted () {
-      if (this.user._id && !this.userTests.length) this.getTestsLocal()
+      if (this.user._id && !this.tests.length) this.getTestsLocal()
     },
 
     methods: {
