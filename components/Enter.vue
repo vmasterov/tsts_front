@@ -84,7 +84,7 @@
           incorrectData: ''
         },
         isDisableSubmit: true,
-        passCharCount: 1,
+        passCharCount: 3,
         isSingup: null
       }
     },
@@ -101,12 +101,30 @@
       'errors.username': function () {
         this.checkDisableSubmit()
       },
+
       'errors.email': function () {
         this.checkDisableSubmit()
       },
+
       'errors.password': function () {
         this.checkDisableSubmit()
       },
+
+      'user.username': function (value) {
+        this.validate('username', value)
+        this.checkDisableSubmit()
+      },
+
+      'user.email': function (value) {
+        this.validate('email', value)
+        this.checkDisableSubmit()
+      },
+
+      'user.password': function (value) {
+        this.validate('password', value)
+        this.checkDisableSubmit()
+      },
+
       userIncorrectData (value) {
         if (value) this.errors.incorrectData = value
       }
@@ -136,8 +154,6 @@
 
       login () {
         this.loginUser(this.user)
-        this.clearForm()
-        event.target.reset()
       },
 
       getValidationClass (fieldName) {
@@ -161,16 +177,6 @@
         const value = target.type === 'checkbox' ? target.checked : target.value
         const name = target.name
         this.validate(name, value)
-      },
-
-      clearForm () {
-        this.user.username = ''
-        this.user.email = ''
-        this.user.password = ''
-        this.errors.username = ''
-        this.errors.eamil = ''
-        this.errors.password = ''
-        this.errors.incorrectData = ''
       },
 
       validate (name, value) {
