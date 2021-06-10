@@ -28,7 +28,7 @@
       </md-menu-item>
       <md-menu-item
         class="dropwdown-item"
-        @click="logout()"
+        @click="logoutUser()"
       >
         Выход
       </md-menu-item>
@@ -41,8 +41,6 @@
   import navigation from '~/components/navigation-items'
 
   export default {
-    inject: ['logout'],
-
     data () {
       return {
         data: '',
@@ -59,6 +57,7 @@
 
     methods: {
       ...mapActions('main', ['setCurrentPageName']),
+      ...mapActions('user', ['logoutUser']),
 
       goToProfile () {
         const url = '/profile'

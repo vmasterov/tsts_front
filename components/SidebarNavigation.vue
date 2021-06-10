@@ -24,8 +24,6 @@
   import navigation from '~/components/navigation-items'
 
   export default {
-    inject: ['logout'],
-
     data: () => {
       return {
         navigation: []
@@ -43,9 +41,10 @@
         'toggleSidebarOpen',
         'setCurrentPageName'
       ]),
+      ...mapActions('user', ['logoutUser']),
 
       menuClick (item) {
-        if (item.type === 'logout') this.logout()
+        if (item.type === 'logout') this.logoutUser()
         this.setCurrentPageName(item.text)
         this.toggleSidebarOpen()
       }

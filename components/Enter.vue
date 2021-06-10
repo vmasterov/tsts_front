@@ -2,7 +2,7 @@
   <div class="enter z-depth-1">
     <div class="enter-caption">Платформа для прохождения тестов</div>
 
-    <form @submit.prevent="loginUser">
+    <form @submit.prevent="login">
       <div class="input-field">
         <md-field class="enter-field">
           <label>Логин</label>
@@ -67,10 +67,7 @@
 </template>
 
 <script>
-  import { mapActions } from 'vuex'
-  import axios from '~/plugins/axios'
-
-  const Cookie = process.client ? require('js-cookie') : undefined
+  import { mapState, mapActions } from 'vuex'
 
   export default {
     data: () => {
@@ -93,6 +90,8 @@
     },
 
     computed: {
+      ...mapState('user', ['userIncorrectData']),
+
       buttonText () {
         return this.isSingup ? 'Зарегистрироавться' : 'Войти'
       }
@@ -107,6 +106,9 @@
       },
       'errors.password': function () {
         this.checkDisableSubmit()
+      },
+      userIncorrectData (value) {
+        if (value) this.errors.incorrectData = value
       }
     },
 
@@ -115,11 +117,15 @@
     },
 
     methods: {
-      ...mapActions('authenticated', ['setToken']),
+      ...mapActions('authenticated', [
+        'setToken',
+        'setRefreshToken'
+      ]),
 
-      getRoute (endpoint) {
-        if (endpoint) return this.isSingup ? 'singup' : 'singin'
-        else return this.isSingup ? 'singin' : 'singup'
+      ...mapActions('user', ['loginUser']),
+
+      getRoute () {
+        return this.isSingup ? 'singin' : 'singup'
       },
 
       checkDisableSubmit () {
@@ -128,26 +134,8 @@
           Boolean(this.errors.email)
       },
 
-      loginUser () {
-        axios({
-          url: `/users/${this.getRoute(true)}`,
-          method: 'POST',
-          data: this.user
-        })
-          .then(({ data }) => {
-            this.setToken(data.token)
-            Cookie.set('token', data.token)
-            this.$router.push('/my-tests')
-          })
-          .catch((error) => {
-            if (!error.response) {
-              console.log('Error: Network Error')
-            }
-            else {
-              console.log(error.response.data.message)
-              this.errors.incorrectData = error.response.data.message
-            }
-          })
+      login () {
+        this.loginUser(this.user)
         this.clearForm()
         event.target.reset()
       },

@@ -5,12 +5,12 @@
   >
     <div class="caption">
       <div class="number">{{ count + 1 }} из {{ questions.length }}</div>
-      <div class="text">{{ questions[count].question }}</div>
+      <div class="text">{{ question }}</div>
     </div>
     <div class="variants">
       <ul class="variants-list">
         <li
-          v-for="(variant, index) in questions[count].variants"
+          v-for="(variant, index) in variants"
           :key="index"
           class="variant"
         >
@@ -64,7 +64,15 @@
 
     computed: {
       questions () {
-        return this.test.questions
+        return this.test.questions ? this.test.questions : []
+      },
+
+      question () {
+        return this.questions[this.count]?.question
+      },
+
+      variants () {
+        return this.questions[this.count]?.variants
       },
 
       answerType () {

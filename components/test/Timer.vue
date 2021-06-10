@@ -30,18 +30,22 @@
       timer () {
         const min = this.min < 10 ? `0${this.min}` : this.min
         const sec = this.sec < 10 ? `0${this.sec}` : this.sec
-        return `${min}:${sec}`
+        return this.test.time ? `${min}:${sec}` : '--:--'
       }
     },
 
     watch: {
       isStartTimer (value) {
         if (value) this.startTimer()
+      },
+
+      test (value) {
+        if (value) this.min = this.test.time
       }
     },
 
     created () {
-      this.min = this.test.time
+      if (this.test.time) this.min = this.test.time
     },
 
     methods: {

@@ -50,9 +50,6 @@
           method: 'GET',
           params: {
             owner: this.user._id
-          },
-          headers: {
-            Authorization: 'Bearer ' + this.token
           }
         })
       }

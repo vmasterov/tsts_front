@@ -53,7 +53,6 @@
 <script>
   import { mapActions, mapState, mapMutations } from 'vuex'
   import { IS_BLURED } from '~/store/mutation-types'
-  import axios from '~/plugins/axios'
   import Timer from '~/components/test/Timer'
   import Question from '~/components/test/Question'
   import Controls from '~/components/test/Controls'
@@ -75,29 +74,37 @@
       }
     },
 
-    async fetch ({ route, store }) {
-      if (!store.state.user.currentTest._id) {
-        await store.dispatch('user/getTest', {
-          url: `/users/user/tests/${route.params.pathMatch}`,
-          method: 'GET',
-          headers: {
-            Authorization: 'Bearer ' + store.state.authenticated.token
-          }
-        })
-      }
-    },
-
     computed: {
-      ...mapState('authenticated', ['token']),
-      ...mapState('user', ['currentTest']),
+      ...mapState('authenticated', [
+        'token',
+        'refreshToken'
+      ]),
+      ...mapState('user', [
+        'currentTest',
+        'testResult'
+      ]),
       ...mapState('main', ['isBlured']),
 
       lastQuestion () {
-        return this.currentTest.questions.length
+        return this.currentTest.questions ? this.currentTest.questions.length : 0
       }
     },
 
-    beforeMount () {
+    watch: {
+      testResult (value) {
+        this.result = value < this.currentTest.score ? 'Тест не сдан' : 'Тест сдан'
+        this.showResult = true
+      }
+    },
+
+    async beforeMount () {
+      if (!this.currentTest._id) {
+        const options = {
+          url: `/users/user/tests/${this.$route.params.pathMatch}`,
+          method: 'GET'
+        }
+        await this.getTest(options)
+      }
       this.setCurrentPageName(this.currentTest.name)
     },
 
@@ -106,7 +113,10 @@
     },
 
     methods: {
-      ...mapActions('user', ['getTest']),
+      ...mapActions('user', [
+        'getTest',
+        'getTestResult'
+      ]),
       ...mapActions('main', ['setCurrentPageName']),
       ...mapMutations('main', { isBluredCommit: IS_BLURED }),
 
@@ -117,23 +127,7 @@
 
       showResults () {
         this.goTo = -1
-        this.$nextTick(() => {
-          axios({
-            url: `/users/user/tests/${this.$route.params.pathMatch}/result`,
-            method: 'POST',
-            data: this.answers,
-            headers: {
-              Authorization: 'Bearer ' + this.token
-            }
-          })
-            .then(({ data }) => {
-              this.result = data.result < this.currentTest.score ? 'Тест не сдан' : 'Тест сдан'
-              this.showResult = true
-            })
-            .catch(error => {
-              console.log(error)
-            })
-        })
+        this.$nextTick(() => this.getTestResult(this.answers))
       },
 
       timeIsUpHandler () {

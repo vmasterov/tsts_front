@@ -15,26 +15,17 @@
 </template>
 
 <script>
-  import { mapState, mapActions, mapMutations } from 'vuex'
-  import { ADD_USER } from '~/store/mutation-types'
+  import { mapState, mapActions } from 'vuex'
 
   import Sidebar from '~/components/Sidebar'
   import MainPanelNavbar from '~/components/MainPanelNavbar'
   import MainPanelFooter from '~/components/MainPanelFooter'
-
-  const Cookie = process.client ? require('js-cookie') : undefined
 
   export default {
     components: {
       Sidebar,
       MainPanelNavbar,
       MainPanelFooter
-    },
-
-    provide () {
-      return {
-        logout: this.logout
-      }
     },
 
     middleware: 'authenticated',
@@ -47,24 +38,16 @@
     mounted () {
       this.getUser({
         url: '/users/user',
-        method: 'GET',
-        headers: {
-          Authorization: 'Bearer ' + this.token
-        }
+        method: 'GET'
       })
     },
 
     methods: {
       ...mapActions('authenticated', ['setToken']),
-      ...mapActions('user', ['getUser']),
-      ...mapMutations('user', { addUserCommit: ADD_USER }),
-
-      logout () {
-        Cookie.remove('token')
-        this.setToken(null)
-        this.addUserCommit({})
-        this.$router.push('/singin')
-      }
+      ...mapActions('user', [
+        'getUser',
+        'logoutUser'
+      ])
     }
   }
 </script>
