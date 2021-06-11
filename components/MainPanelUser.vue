@@ -11,10 +11,10 @@
       md-menu-trigger
     >
       <span class="avatar">
-        <img src="@/assets/images/avatar.jpg" alt="">
+        <img :src="getAvatarUrl()" alt="">
       </span>
       <span class="user-dropdown-text">
-        <span class="user-dropdown-name">Владимир</span>
+        <span class="user-dropdown-name">{{ userName }}</span>
         <i class="material-icons right">keyboard_arrow_down</i>
       </span>
     </div>
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-  import { mapActions } from 'vuex'
+  import { mapActions, mapGetters } from 'vuex'
   import navigation from '~/components/navigation-items'
 
   export default {
@@ -49,6 +49,13 @@
           width: ''
         }
       }
+    },
+
+    computed: {
+      ...mapGetters('user', [
+        'userName',
+        'userAvatar'
+      ])
     },
 
     mounted () {
@@ -63,6 +70,10 @@
         const url = '/profile'
         this.setCurrentPageName(navigation.find(item => item.link === url).text)
         this.$router.push(url)
+      },
+
+      getAvatarUrl () {
+        if (this.userAvatar) return require(`@/assets/images/${this.userAvatar}`)
       }
     }
   }

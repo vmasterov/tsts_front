@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="currentTest">
     <template v-if="!showResult">
       <div class="row">
         <div class="col xl6 offset-xl3 s12">
@@ -81,7 +81,8 @@
       ]),
       ...mapState('user', [
         'currentTest',
-        'testResult'
+        'testResult',
+        'user'
       ]),
       ...mapState('main', ['isBlured']),
 
@@ -94,18 +95,25 @@
       testResult (value) {
         this.result = value < this.currentTest.score ? 'Тест не сдан' : 'Тест сдан'
         this.showResult = true
-      }
-    },
+      },
 
-    async beforeMount () {
-      if (!this.currentTest._id) {
-        const options = {
-          url: `/users/user/tests/${this.$route.params.pathMatch}`,
-          method: 'GET'
+      async user (value) {
+        if (value._id) {
+          if (!this.currentTest._id) {
+            const options = {
+              url: `/users/user/tests/${this.$route.params.pathMatch}`,
+              method: 'POST',
+              data: {
+                testId: this.$route.params.pathMatch,
+                ownerId: this.user._id
+              }
+            }
+
+            await this.getTest(options)
+          }
+          this.setCurrentPageName(this.currentTest.name)
         }
-        await this.getTest(options)
       }
-      this.setCurrentPageName(this.currentTest.name)
     },
 
     beforeDestroy () {

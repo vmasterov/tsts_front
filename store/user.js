@@ -4,7 +4,8 @@ import {
   ADD_TESTS,
   ADD_CURRENT_TESTS,
   USER_INCORRECT_DATA,
-  TEST_RESULT
+  TEST_RESULT,
+  SET_LOGOUT
 } from './mutation-types'
 
 const Cookie = process.client ? require('js-cookie') : undefined
@@ -16,7 +17,8 @@ export default {
       tests: [],
       currentTest: {},
       userIncorrectData: '',
-      testResult: null
+      testResult: null,
+      isLogout: false
     }
   },
   mutations: {
@@ -38,6 +40,10 @@ export default {
 
     [TEST_RESULT] (state, payload) {
       state.testResult = payload
+    },
+
+    [SET_LOGOUT] (state, payload) {
+      state.isLogout = payload
     }
   },
 
@@ -68,13 +74,15 @@ export default {
 
     async getTest ({ state, commit, rootState }, payload) {
       try {
-        const resp = await axios(payload)
-        const data = resp.data ? resp.data[0] : {}
+        const { data } = await axios(payload)
         commit(ADD_CURRENT_TESTS, data)
       }
       catch (error) {
         if (!error.response) console.log('getTest error: Network Error')
-        else console.log('getTest Error', error.response.data.message)
+        else {
+          console.log('getTest Error', error.response.data.message)
+          this.$router.push('/')
+        }
       }
     },
 
@@ -108,11 +116,14 @@ export default {
 
       try {
         await axios(options)
+        commit(SET_LOGOUT, true)
         Cookie.remove('token')
         Cookie.remove('refreshToken')
         dispatch('authenticated/setToken', null, { root: true })
         dispatch('authenticated/setRefreshToken', null, { root: true })
         commit(ADD_USER, {})
+        commit(ADD_TESTS, [])
+        commit(ADD_CURRENT_TESTS, {})
         this.$router.push('/singin')
       }
       catch (error) {
@@ -144,6 +155,14 @@ export default {
   getters: {
     tests (state) {
       return state.user.tests
+    },
+
+    userName (state) {
+      return state.user.username
+    },
+
+    userAvatar (state) {
+      return state.user.avatar
     }
   }
 }

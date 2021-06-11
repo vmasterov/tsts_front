@@ -26,19 +26,20 @@
     computed: {
       ...mapState('user', [
         'user',
-        'tests'
+        'tests',
+        'isLogout'
       ]),
       ...mapState('authenticated', ['token'])
     },
 
     watch: {
       user (value) {
-        if (value) this.getTestsLocal()
+        if (value && !this.isLogout) this.getTestsLocal()
       }
     },
 
     mounted () {
-      if (this.user._id && !this.tests.length) this.getTestsLocal()
+      if (this.user._id && !this.tests.length && !this.isLogout) this.getTestsLocal()
     },
 
     methods: {

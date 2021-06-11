@@ -19,11 +19,11 @@
     <span class="test-extra">
       <span class="test-extra-item">
         <span class="test-extra-info">{{ test.questions.length }}</span>
-        <span class="test-extra-text">Вопросы <h1>плюрализация!</h1></span>
+        <span class="test-extra-text">{{ p11n(test.questions.length, ['Вопрос', 'Вопроса', 'Вопросов']) }}</span>
       </span>
       <span class="test-extra-item">
         <span class="test-extra-info">{{ test.time }}</span>
-        <span class="test-extra-text">Минуты</span>
+        <span class="test-extra-text">{{ p11n(test.time, ['Минута', 'Минуты', 'Минут']) }}</span>
       </span>
       <span class="test-extra-item">
         <span class="test-extra-info">{{ test.complexity }}/10</span>
@@ -63,6 +63,11 @@
         return {
           backgroundImage: 'url(' + require('@/assets/images/test-covers/' + image) + ')'
         }
+      },
+
+      p11n (number, titles) {
+        const cases = [2, 0, 1, 1, 1, 2]
+        return titles[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]]
       },
 
       goToTest () {

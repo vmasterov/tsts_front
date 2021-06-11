@@ -67,7 +67,8 @@
 </template>
 
 <script>
-  import { mapState, mapActions } from 'vuex'
+  import { mapState, mapActions, mapMutations } from 'vuex'
+  import { SET_LOGOUT } from '~/store/mutation-types'
 
   export default {
     data: () => {
@@ -132,6 +133,7 @@
 
     created () {
       this.isSingup = this.$route.path.slice(1) === 'singup'
+      this.setLogoutCommit(false)
     },
 
     methods: {
@@ -141,6 +143,8 @@
       ]),
 
       ...mapActions('user', ['loginUser']),
+
+      ...mapMutations('user', { setLogoutCommit: SET_LOGOUT }),
 
       getRoute () {
         return this.isSingup ? 'singin' : 'singup'
