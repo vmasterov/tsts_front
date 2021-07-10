@@ -1,7 +1,7 @@
 <template>
   <div class="construct-warning">
     <div class="message">Извините! Страница находится в разработке.</div>
-    <div class="go-home">Вернуться на <NuxtLink to="/my-tests">главную</NuxtLink></div>
+    <div class="go-home">Вернуться на <NuxtLink to="/nuxt/my-tests">главную</NuxtLink></div>
   </div>
 </template>
 

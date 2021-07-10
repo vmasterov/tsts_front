@@ -99,7 +99,7 @@ export default {
         commit('authenticated/AUTH_SET_REFRESH_TOKEN', refreshToken, { root: true })
         Cookie.set('token', token)
         Cookie.set('refreshToken', refreshToken)
-        this.$router.push('/my-tests')
+        this.$router.push('/nuxt/my-tests')
       }
       catch (error) {
         if (!error.response) console.log('loginUser Error', error, 'Error: Network Error')
@@ -124,7 +124,7 @@ export default {
         commit(ADD_USER, {})
         commit(ADD_TESTS, [])
         commit(ADD_CURRENT_TESTS, {})
-        this.$router.push('/singin')
+        this.$router.push('/nuxt/singin')
       }
       catch (error) {
         if (!error.response) console.log('logoutUser Error', error, 'Error: Network Error')

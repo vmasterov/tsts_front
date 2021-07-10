@@ -73,19 +73,19 @@ export default {
     extendRoutes (routes, resolve) {
       routes.push(
         {
-          path: '/my-tests',
+          path: '/nuxt/my-tests',
           component: resolve(__dirname, 'pages/tests/index.vue')
         },
         {
-          path: '/my-tests/*',
+          path: '/nuxt/my-tests/*',
           component: resolve(__dirname, 'pages/tests/_.vue')
         },
         {
-          path: '/singin',
+          path: '/nuxt/singin',
           component: resolve(__dirname, 'pages/enter.vue')
         },
         {
-          path: '/singup',
+          path: '/nuxt/singup',
           component: resolve(__dirname, 'pages/enter.vue')
         }
       )

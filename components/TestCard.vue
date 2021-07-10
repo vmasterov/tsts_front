@@ -47,7 +47,7 @@
 
     computed: {
       slug () {
-        return `/my-tests/${this.test._id}`
+        return `/nuxt/my-tests/${this.test._id}`
       },
 
       createdTime () {

@@ -67,7 +67,7 @@
       ...mapActions('user', ['logoutUser']),
 
       goToProfile () {
-        const url = '/profile'
+        const url = '/nuxt/profile'
         this.setCurrentPageName(navigation.find(item => item.link === url).text)
         this.$router.push(url)
       },

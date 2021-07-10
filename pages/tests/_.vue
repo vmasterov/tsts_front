@@ -44,7 +44,7 @@
     <template v-else>
       <div class="result">{{ result }}</div>
       <div class="result-nav">
-        <div class="goHome">Вернуться на <NuxtLink to="/my-tests">главную</NuxtLink></div>
+        <div class="goHome">Вернуться на <NuxtLink to="/nuxt/my-tests">главную</NuxtLink></div>
       </div>
     </template>
   </div>

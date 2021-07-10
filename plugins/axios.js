@@ -2,7 +2,8 @@ import https from 'https'
 import axios from 'axios'
 
 export default ({ app, store }) => {
-  axios.defaults.baseURL = 'https://localhost:3444'
+  // axios.defaults.baseURL = 'https://localhost:3444'
+  axios.defaults.baseURL = 'http://test-node-1.vmasterov.ru/node1'
   axios.defaults.withCredentials = false
   axios.defaults.httpsAgent = new https.Agent({ rejectUnauthorized: false })
 

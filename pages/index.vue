@@ -7,7 +7,7 @@
 <script>
   export default {
     fetch ({ redirect, route }) {
-      if (!route.params.id) redirect('/my-tests')
+      if (!route.params.id) redirect('/nuxt/my-tests')
     }
   }
 </script>
