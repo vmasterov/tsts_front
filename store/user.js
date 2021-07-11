@@ -88,7 +88,7 @@ export default {
 
     async loginUser ({ state, commit }, user) {
       try {
-        const slug = window.location.pathname.slice(1) === 'singup' ? 'singup' : 'singin'
+        const slug = window.location.pathname.match(/\/(\w+)\/?$/)[1] === 'singup' ? 'singup' : 'singin'
         const options = {
           url: `/users/${slug}`,
           method: 'POST',

@@ -132,7 +132,7 @@
     },
 
     created () {
-      this.isSingup = this.$route.path.slice(1) === 'singup'
+      this.isSingup = this.$route.path.match(/\/(\w+)\/?$/)[1] === 'singup'
       this.setLogoutCommit(false)
     },
 
