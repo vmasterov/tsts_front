@@ -1,10 +1,33 @@
 <template>
   <div class="logo">
-    <NuxtLink to="/" class="simple-text">
+    <NuxtLink
+      to="/"
+      class="simple-text"
+      @click.native="menuClick"
+    >
       tsts.ru
     </NuxtLink>
   </div>
 </template>
+
+<script>
+  import { mapActions } from 'vuex'
+  import navigation from '~/components/navigation-items'
+
+  export default {
+    methods: {
+      ...mapActions('main', [
+        'toggleSidebarOpen',
+        'setCurrentPageName'
+      ]),
+
+      menuClick () {
+        this.setCurrentPageName(navigation.find(item => item.id === 1).text)
+        this.toggleSidebarOpen()
+      }
+    }
+  }
+</script>
 
 <style scoped lang="scss">
   @import "~assets/scss/variables";
@@ -28,8 +51,5 @@
     &:hover {
       text-decoration: none;
     }
-  }
-
-  @include w_993 {
   }
 </style>

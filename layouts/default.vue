@@ -15,7 +15,7 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
+  import { mapState, mapActions } from 'vuex'
 
   import Sidebar from '~/components/Sidebar'
   import MainPanelNavbar from '~/components/MainPanelNavbar'
@@ -28,8 +28,26 @@
       MainPanelFooter
     },
 
+    middleware: 'authenticated',
+
     computed: {
-      ...mapState('main', ['isSidebarOpen'])
+      ...mapState('main', ['isSidebarOpen']),
+      ...mapState('authenticated', ['token'])
+    },
+
+    mounted () {
+      this.getUser({
+        url: '/users/user',
+        method: 'GET'
+      })
+    },
+
+    methods: {
+      ...mapActions('authenticated', ['setToken']),
+      ...mapActions('user', [
+        'getUser',
+        'logoutUser'
+      ])
     }
   }
 </script>

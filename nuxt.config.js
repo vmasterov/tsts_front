@@ -27,12 +27,14 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '@/plugins/VueMaterial.js'
+    '~/plugins/vue-material.js',
+    '~/plugins/axios'
   ],
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     'vue-material/dist/vue-material.min.css',
+    '@/assets/scss/grid.scss',
     '@/assets/scss/main.scss'
   ],
 
@@ -51,6 +53,8 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    publicPath: '/nuxt/_nuxt/',
+
     loaders: {
       // Broke page styles when live changing it n Chrome DevTools with webpack template
       // @see https://github.com/vuejs-templates/webpack/issues/1331
@@ -68,11 +72,45 @@ export default {
   },
 
   router: {
-    extendRoutes(routes, resolve) {
-      routes.push({
-        path: '/my-tests',
-        component: resolve(__dirname, 'pages/tests.vue')
-      })
+    extendRoutes (routes, resolve) {
+      routes.push(
+        {
+          path: '/nuxt/my-tests',
+          component: resolve(__dirname, 'pages/tests/index.vue')
+        },
+        {
+          path: '/nuxt/my-tests/*',
+          component: resolve(__dirname, 'pages/tests/_.vue')
+        },
+        {
+          path: '/nuxt/singin',
+          component: resolve(__dirname, 'pages/enter.vue')
+        },
+        {
+          path: '/nuxt/singup',
+          component: resolve(__dirname, 'pages/enter.vue')
+        },
+        {
+          path: '/nuxt/create-test',
+          component: resolve(__dirname, 'pages/create-test.vue')
+        },
+        {
+          path: '/nuxt/load-test',
+          component: resolve(__dirname, 'pages/load-test.vue')
+        },
+        {
+          path: '/nuxt/statistics',
+          component: resolve(__dirname, 'pages/statistics.vue')
+        },
+        {
+          path: '/nuxt/profile',
+          component: resolve(__dirname, 'pages/profile.vue')
+        },
+        {
+          path: '/nuxt/help',
+          component: resolve(__dirname, 'pages/help.vue')
+        }
+      )
     }
   },
 

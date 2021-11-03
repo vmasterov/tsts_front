@@ -9,7 +9,7 @@
         <NuxtLink
           :to="item.link"
           class="waves-effect waves-dark nav-link"
-          @click.native="menuClick"
+          @click.native="menuClick(item)"
         >
           <i class="material-icons nav-icon">{{ item.icon }}</i>
           <span class="nav-text">{{ item.text }}</span>
@@ -21,60 +21,31 @@
 
 <script>
   import { mapActions } from 'vuex'
+  import navigation from '~/components/navigation-items'
 
   export default {
     data: () => {
       return {
-        navigation: [
-          {
-            id: 1,
-            link: '/my-tests',
-            text: 'Мои тесты',
-            icon: 'playlist_add_check'
-          },
-          {
-            id: 2,
-            link: '/create-test',
-            text: 'Создать тест',
-            icon: 'playlist_add'
-          },
-          {
-            id: 3,
-            link: 'load-test',
-            text: 'Загрузить тест',
-            icon: 'playlist_play'
-          },
-          {
-            id: 4,
-            link: '/statistics',
-            text: 'Статистика',
-            icon: 'timeline'
-          },
-          {
-            id: 5,
-            link: '/profile',
-            text: 'Профиль',
-            icon: 'person_outline'
-          },
-          {
-            id: 6,
-            link: '/Help',
-            text: 'Помощь',
-            icon: 'help_outline'
-          },
-          {
-            id: 7,
-            link: '/exit',
-            text: 'Выход',
-            icon: 'exit_to_app'
-          }
-        ]
+        navigation: []
       }
     },
 
+    beforeMount () {
+      this.navigation = navigation
+      const page = this.navigation.find(item => item.link === this.$route.path) || ''
+      this.setCurrentPageName(page.text)
+    },
+
     methods: {
-      ...mapActions('main', ['toggleSidebarOpen']),
-      menuClick () {
+      ...mapActions('main', [
+        'toggleSidebarOpen',
+        'setCurrentPageName'
+      ]),
+      ...mapActions('user', ['logoutUser']),
+
+      menuClick (item) {
+        if (item.type === 'logout') this.logoutUser()
+        this.setCurrentPageName(item.text)
         this.toggleSidebarOpen()
       }
     }

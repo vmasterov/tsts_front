@@ -3,15 +3,19 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
     "build": "nuxt build",
-    "start": "nuxt start",
+    "dev": "node server.js",
+    "start": "NODE_ENV=production node server.js",
     "generate": "nuxt generate",
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
     "lint": "npm run lint:js"
   },
   "dependencies": {
+    "axios": "^0.21.1",
+    "cookieparser": "^0.1.0",
     "core-js": "^3.9.1",
+    "express": "^4.17.1",
+    "js-cookie": "^2.2.1",
     "nuxt": "^2.15.3",
     "vue-material": "^1.0.0-beta-15"
   },
